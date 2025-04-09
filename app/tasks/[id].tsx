@@ -4,34 +4,47 @@ import DateTimePicker, {
     type DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { Button, Platform, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Alert, Button, Platform, View } from 'react-native';
+import uuid from 'react-native-uuid';
 import styled from 'styled-components/native';
-import uuid from 'uuid';
 
 const Container = styled.View`
-  flex: 1;
-  padding: 16px;
-  background-color: ${(props) => props.theme.colors.background};
+    flex: 1;
+    padding: 16px;
+    background-color: ${(props) => props.theme.colors.background};
 `;
 
 const Input = styled.TextInput`
-  border-width: 1px;
-  border-color: ${(props) => props.theme.colors.border};
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  background-color: #fff;
+    border-width: 1px;
+    border-color: ${(props) => props.theme.colors.border};
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    background-color: #fff;
 `;
 
 const Label = styled.Text`
-  margin-bottom: 4px;
-  color: ${(props) => props.theme.colors.text};
+    margin-bottom: 4px;
+    color: ${(props) => props.theme.colors.text};
+`;
+
+const DateButton = styled.TouchableOpacity`
+    padding: 12px;
+    background-color: ${(props) => props.theme.colors.card};
+    border-width: 1px;
+    border-color: ${(props) => props.theme.colors.border};
+    border-radius: 4px;
+    margin-bottom: 12px;
+`;
+
+const DateButtonText = styled.Text`
+    color: ${(props) => props.theme.colors.text};
 `;
 
 export default function TaskScreen(): JSX.Element {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const isNew = id === 'new';
+    const isNew = useMemo(() => id === 'new', [id]);
     const router = useRouter();
     const { tasks, addTask, updateTask } = useTasksStore();
 
@@ -53,7 +66,7 @@ export default function TaskScreen(): JSX.Element {
         }
     }, [id, tasks, isNew]);
 
-    const handleSave = (): void => {
+    const handleSave = () => {
         if (!title.trim()) {
             alert('Title is required');
             return;
@@ -72,7 +85,15 @@ export default function TaskScreen(): JSX.Element {
 
     const onChangeDate = (_: DateTimePickerEvent, selected?: Date) => {
         setShowPicker(Platform.OS === 'ios');
-        if (selected) setDueDate(selected);
+        if (selected) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            if (selected < now) {
+                Alert.alert('Invalid date', 'Please choose a future date.');
+                return;
+            }
+            setDueDate(selected);
+        }
     };
 
     return (
@@ -83,30 +104,42 @@ export default function TaskScreen(): JSX.Element {
             <Label>Description</Label>
             <Input value={description} onChangeText={setDescription} />
 
-            <View
-                style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: 12,
-                }}
-            >
-                <Button
-                    title={completed ? 'Mark as Pending' : 'Mark as Completed'}
-                    onPress={() => setCompleted((c) => !c)}
-                />
-            </View>
+            {!isNew && (
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginBottom: 12,
+                    }}
+                >
+                    <Button
+                        title={
+                            completed ? 'Mark as Pending' : 'Mark as Completed'
+                        }
+                        onPress={() => setCompleted((c) => !c)}
+                    />
+                </View>
+            )}
 
             <Label>Due Date</Label>
-            <TouchableOpacity onPress={() => setShowPicker(true)}>
-                <Text>
-                    {dueDate ? dueDate.toLocaleDateString() : 'Select due date'}
-                </Text>
-            </TouchableOpacity>
+            <DateButton onPress={() => setShowPicker(true)}>
+                <DateButtonText>
+                    {dueDate
+                        ? dueDate.toLocaleDateString(undefined, {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                          })
+                        : 'Select due date'}
+                </DateButtonText>
+            </DateButton>
+
             {showPicker && (
                 <DateTimePicker
                     value={dueDate || new Date()}
                     mode="date"
                     display="default"
+                    minimumDate={new Date()}
                     onChange={onChangeDate}
                 />
             )}
