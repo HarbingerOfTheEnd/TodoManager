@@ -5,3 +5,5 @@ export type Task = {
     completed: boolean;
     dueDate?: string;
 };
+
+export type TaskFilter = 'All' | 'Completed' | 'Pending';
