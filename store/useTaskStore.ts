@@ -1,4 +1,4 @@
-import type { Task } from '@/types/task';
+import type { Task } from '@/lib/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 
