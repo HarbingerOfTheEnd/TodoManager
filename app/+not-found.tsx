@@ -1,40 +1,39 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Button } from 'react-native';
+import { useRouter } from 'expo-router';
+import styled from 'styled-components/native';
 
-import { Text, View } from '@/components/Themed';
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.colors.background};
+`;
 
-export default function NotFoundScreen() {
+const Title = styled.Text`
+  font-size: 48px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.text};
+  margin-bottom: 16px;
+`;
+
+const Description = styled.Text`
+  font-size: 18px;
+  color: ${(props) => props.theme.colors.text};
+  margin-bottom: 32px;
+  text-align: center;
+  padding: 0 20px;
+`;
+
+export default function NotFound(): JSX.Element {
+    const router = useRouter();
+
     return (
-        <>
-            <Stack.Screen options={{ title: 'Oops!' }} />
-            <View style={styles.container}>
-                <Text style={styles.title}>This screen doesn't exist.</Text>
-
-                <Link href="/" style={styles.link}>
-                    <Text style={styles.linkText}>Go to home screen!</Text>
-                </Link>
-            </View>
-        </>
+        <Container>
+            <Title>404</Title>
+            <Description>
+                Oops! The page you're looking for doesn't exist.
+            </Description>
+            <Button title="Go Home" onPress={() => router.replace('/home')} />
+        </Container>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    link: {
-        marginTop: 15,
-        paddingVertical: 15,
-    },
-    linkText: {
-        fontSize: 14,
-        color: '#2e78b7',
-    },
-});
