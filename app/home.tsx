@@ -84,7 +84,7 @@ export default function Home(): JSX.Element {
                     renderItem={({ item }) => (
                         <TaskItem
                             task={item}
-                            onPress={() => router.push(`/task/${item.id}`)}
+                            onPress={() => router.push(`/tasks/${item.id}`)}
                         />
                     )}
                 />
@@ -92,7 +92,7 @@ export default function Home(): JSX.Element {
                 <EmptyState />
             )}
 
-            <Fab onPress={() => router.push('/task/new')}>
+            <Fab onPress={() => router.push('/tasks/new')}>
                 <FabText>+</FabText>
             </Fab>
         </Container>
