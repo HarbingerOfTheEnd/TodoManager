@@ -4,7 +4,7 @@ import DateTimePicker, {
     type DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Platform, View } from 'react-native';
 import uuid from 'react-native-uuid';
 import styled from 'styled-components/native';

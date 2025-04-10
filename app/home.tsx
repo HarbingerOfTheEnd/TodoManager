@@ -3,7 +3,7 @@ import TaskItem from '@/components/TaskItem';
 import type { Task, TaskFilter } from '@/lib/types';
 import { useTasksStore } from '@/store/useTaskStore';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
