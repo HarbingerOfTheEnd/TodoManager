@@ -8,7 +8,8 @@
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "io.github.harbingeroftheend.todomanager"
         },
         "android": {
             "package": "io.github.harbingeroftheend.todomanager"
