@@ -105,10 +105,9 @@ A simple yet robust task management app built with React Native and Expo, demons
 
 | Screen               | Preview                                  |
 | -------------------- | ---------------------------------------- |
-| Login Screen         | ![Login](assets/login.png)               |
-| Home Screen          | ![Home](assets/home.png)                 |
-| Add Task             | ![Add Task](assets/add-task.png)         |
+| Login Screen         | ![Login](assets/login.jpg)               |
+| Home Screen          | ![Home](assets/home.jpg)                 |
+| Add Task             | ![Add Task](assets/add-task.jpg)         |
 | Swipe to Delete      | ![Swipe Delete](assets/swipe-delete.gif) |
-| 404 Page             | ![404](assets/404.png)                   |
 
 ---
